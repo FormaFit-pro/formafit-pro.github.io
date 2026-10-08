@@ -4,46 +4,316 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Forma Fit</title>
-<meta name="description" content="Forma Fit: programas de fuerza, registro de entrenos y conexión con tu entrenador. Gratis, sin anuncios, sin tonterías.">
+<meta name="description" content="Forma Fit: crea tus programas, periodiza y registra tus entrenos. Gratis, sin anuncios, sin tonterías. Y para entrenadores, Forma Fit Pro.">
 <link rel="icon" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Inter:ital,wght@0,500;0,700;0,800;0,900;1,900&display=swap">
 <link rel="stylesheet" href="/site.css">
+<style>
+  /* Dos modos (M02 §5.1): dos capas en la misma celda de la rejilla. La de
+     Pro va encima, recortada por un círculo que sale del interruptor; la
+     transición CSS del clip-path, al invertirse a medias, se recoge desde
+     donde iba (como Inicio por pestañas, U13-02). */
+  .layers { display: grid; }
+  .layer {
+    grid-area: 1 / 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  .layer.accent {
+    --bg: color-mix(in srgb, var(--accent) 7%, #171717);
+    clip-path: circle(0 at var(--x, 100%) var(--y, 0));
+    transition: clip-path 450ms cubic-bezier(.33, 1, .68, 1);
+  }
+  .is-pro .layer.accent { clip-path: circle(var(--r, 150vmax) at var(--x, 100%) var(--y, 0)); }
+  .is-pro.settled .layer.accent { clip-path: none; transition: none; }
+  @media (prefers-reduced-motion: reduce) { .layer.accent { transition: none; } }
+
+
+  /* Interruptor */
+  .switch {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    display: flex;
+    padding: 4px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, .78);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    font: 900 12px/1 Inter, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .switch span {
+    padding: 9px 12px;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: background-color 200ms, color 200ms;
+  }
+  .switch[aria-checked="false"] .s-free,
+  .switch[aria-checked="true"] .s-pro { background: var(--accent); color: var(--on-accent); }
+
+  /* Ventajas: icono en cuadro con tinte lima + título con palabra en lima. */
+  .features { list-style: none; padding: 0; margin: 0; display: grid; gap: 22px; }
+  .features li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+  .ico {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+  }
+  .ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .features h3 { margin: 2px 0 2px; }
+  .features p { margin: 0; color: var(--muted); }
+  h3 em, h2 em { font-style: normal; color: var(--accent); }
+  .group { margin: 36px 0 14px; }
+
+  .card h2 { margin-top: 0; }
+  .card p { margin: 0; }
+  .linkbtn {
+    margin-top: 14px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--accent);
+    font: 800 15px/1.4 Inter, sans-serif;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .soon { margin: 40px 0 0; }
+
+  /* Marca de fondo del corte, como en el diseño del paywall: grande,
+     horizontal, tenue y cortada por la derecha. Va detrás del texto. */
+  .cut { position: relative; overflow: hidden; }
+  .cut .wrap { position: relative; z-index: 1; }
+  /* Pegada al borde derecho de la columna de contenido (en móvil, de la
+     pantalla) y desplazada una fracción de su propio ancho: en el móvil la
+     corta el borde; en el ordenador sobresale de la columna y se ve casi
+     entera. */
+  .mark {
+    position: absolute;
+    top: 40px;
+    right: max(0px, calc((100vw - var(--max)) / 2));
+    transform: translateX(var(--crop));
+    pointer-events: none;
+    user-select: none;
+  }
+  .mark-pro {
+    --crop: 22%;
+    font: italic 800 clamp(200px, 62vw, 380px)/.8 "Barlow Condensed", sans-serif;
+    color: rgba(0, 0, 0, .09);
+  }
+  .mark-weight {
+    --crop: 24%;
+    top: 56px;
+    width: clamp(300px, 90vw, 520px);
+    fill: var(--accent);
+    opacity: .18;
+  }
+</style>
 </head>
 <body>
-<!-- ponytail: portada provisional (M02-01); la landing con los dos modos es la M02-03. -->
-<header class="cut">
-  <div class="wrap">
-    <a class="logo" href="/" aria-label="Forma Fit"><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
-    <h1 data-t="h1">Gratis, sin anuncios, sin tonterías.</h1>
-    <p class="tagline" data-t="tag">Programas de fuerza y conexión con tu entrenador</p>
+<button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro">
+  <span class="s-free" data-t="swFree">Gratis</span><span class="s-pro">PRO</span>
+</button>
+
+<div class="layers" id="layers">
+  <!-- ── Forma Fit ─────────────────────────────────────────────── -->
+  <div class="layer" id="free">
+    <header class="cut">
+      <svg class="mark mark-weight" viewBox="0 0 240 100" aria-hidden="true"><rect x="2" y="38" width="14" height="24" rx="4"/><rect x="18" y="8" width="24" height="84" rx="7"/><rect x="45" y="20" width="17" height="60" rx="5"/><rect x="62" y="43" width="116" height="14" rx="4"/><rect x="178" y="20" width="17" height="60" rx="5"/><rect x="198" y="8" width="24" height="84" rx="7"/><rect x="224" y="38" width="14" height="24" rx="4"/></svg>
+      <div class="wrap">
+        <a class="logo" href="/" aria-label="Forma Fit"><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
+        <h1 data-t="fH1">Gratis, sin anuncios, sin tonterías.</h1>
+        <p class="tagline" data-t="fTag">Programa · Entrena · Progresa</p>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <ul class="features">
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+            <div><h3 data-t="f1t">Crea programas <em>con facilidad</em></h3><p data-t="f1d">Parte de una propuesta, de una plantilla o de cero. Sesiones, ejercicios y series en pocos toques.</p></div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M5 20v-5"/><path d="M11 20V10"/><path d="M17 20V4"/></svg></span>
+            <div><h3 data-t="f2t"><em>Periodización</em> sin complicarte</h3><p data-t="f2d">Divide el programa en etapas y la app te lleva de una a la siguiente.</p></div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+            <div><h3 data-t="f3t">Registro <em>rápido</em> y sencillo</h3><p data-t="f3d">Apunta pesos y repeticiones mientras entrenas, sin perder el ritmo.</p></div></li>
+        </ul>
+
+        <p class="caps group" data-t="bonus">Y de regalo</p>
+        <ul class="features">
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg></span>
+            <div><h3 data-t="f4t"><em>Métricas</em> y progreso</h3><p data-t="f4d">Tus marcas, tu volumen y tu carga de entrenamiento, semana a semana.</p></div></li>
+        </ul>
+
+        <div class="card" style="margin-top:36px">
+          <h2 data-t="coachT">¿Tienes <em>entrenador</em>?</h2>
+          <p data-t="coachD">Puede crearte los programas y seguir tus entrenos desde su app. Tú solo entrenas.</p>
+          <button class="linkbtn" type="button" id="toPro" data-t="toPro">¿Eres entrenador? Mira Forma Fit Pro →</button>
+        </div>
+
+        <p class="caps soon" data-t="soon">Próximamente en Google Play y App Store</p>
+      </div>
+    </main>
+    <footer>
+      <div class="wrap">
+        <a href="/privacidad/" data-t="priv">Privacidad</a>
+        <span>© 2026 Forma Fit</span>
+      </div>
+    </footer>
   </div>
-</header>
-<main>
-  <div class="wrap">
-    <p class="caps" data-t="soon">Próximamente en Android e iOS</p>
+
+  <!-- ── Forma Fit Pro ─────────────────────────────────────────── -->
+  <div class="layer accent" id="pro" inert aria-hidden="true">
+    <header class="cut">
+      <span class="mark mark-pro" aria-hidden="true">PRO</span>
+      <div class="wrap">
+        <a class="logo" href="/#pro" aria-label="Forma Fit Pro"><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
+        <h1 data-t="pH1">Conecta con todos tus clientes</h1>
+        <p class="tagline" data-t="pTag">Una app para entrenarlos a todos</p>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <ul class="features">
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <div><h3 data-t="p1t">Clientes <em>sin límite</em></h3><p data-t="p1d">Entrena a todos los que quieras desde la misma app.</p></div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/></svg></span>
+            <div><h3 data-t="p2t">Conectados y <em>sincronizados</em></h3><p data-t="p2d">Tú programas, ellos entrenan con su app y sus sesiones te llegan solas.</p></div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+            <div><h3 data-t="p3t">Todos tus clientes <em>de un vistazo</em></h3><p data-t="p3d">Su programa y sus entrenos en un solo sitio. Sin hojas de cálculo ni mensajes sueltos.</p></div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+            <div><h3 data-t="p4t"><em>Plantillas</em> de programas y sesiones</h3><p data-t="p4d">Créalas una vez y asígnalas a quien quieras en dos toques.</p></div></li>
+        </ul>
+
+        <div class="card" style="margin-top:36px">
+          <h2 data-t="tryT">Pruébalo <em>antes de pagar</em></h2>
+          <p data-t="tryD">Sin pagar puedes llevar hasta 3 clientes (1 conectado con su app), 1 plantilla de programa y 1 de sesión.</p>
+        </div>
+
+        <p class="caps soon" data-t="soon">Próximamente en Google Play y App Store</p>
+      </div>
+    </main>
+    <footer>
+      <div class="wrap">
+        <a href="/privacidad/" data-t="priv">Privacidad</a>
+        <span>© 2026 Forma Fit</span>
+      </div>
+    </footer>
   </div>
-</main>
-<footer>
-  <div class="wrap">
-    <a href="/privacidad/" data-t="priv">Privacidad</a>
-    <span>© 2026 Forma Fit</span>
-  </div>
-</footer>
+</div>
+
 <script>
-  // Español por defecto (es lo que hay en el HTML); inglés si el navegador no pide español.
+  // ── Idioma: español en el HTML; inglés si el navegador no pide español.
   if (!navigator.language.toLowerCase().startsWith('es')) {
     const EN = {
-      h1: 'Free, no ads, no nonsense.',
-      tag: 'Strength programs and a link to your coach',
-      soon: 'Coming soon to Android and iOS',
+      swFree: 'Free',
+      fH1: 'Free, no ads, no nonsense.',
+      fTag: 'Plan · Train · Progress',
+      f1t: 'Build programs *with ease*',
+      f1d: 'Start from a suggestion, a template or from scratch. Sessions, exercises and sets in a few taps.',
+      f2t: '*Periodization* made simple',
+      f2d: 'Split your program into stages and the app moves you from one to the next.',
+      f3t: '*Fast*, simple logging',
+      f3d: 'Log weights and reps as you train, without breaking your rhythm.',
+      bonus: 'And as a bonus',
+      f4t: '*Metrics* and progress',
+      f4d: 'Your records, your volume and your training load, week by week.',
+      coachT: 'Got a *coach*?',
+      coachD: 'They can build your programs and follow your workouts from their app. You just train.',
+      toPro: 'Are you a coach? See Forma Fit Pro →',
+      soon: 'Coming soon to Google Play and the App Store',
       priv: 'Privacy',
+      pH1: 'Connect with all your clients',
+      pTag: 'One app to train them all',
+      p1t: '*Unlimited* clients',
+      p1d: 'Train as many people as you want from the same app.',
+      p2t: 'Connected and *in sync*',
+      p2d: 'You program, they train with their app and their sessions reach you on their own.',
+      p3t: 'All your clients *at a glance*',
+      p3d: 'Their program and their workouts in one place. No spreadsheets, no scattered messages.',
+      p4t: 'Program and session *templates*',
+      p4d: 'Build them once and assign them to anyone in two taps.',
+      tryT: 'Try it *before you pay*',
+      tryD: 'For free you can have up to 3 clients (1 connected with their app), 1 program template and 1 session template.',
     };
     document.documentElement.lang = 'en';
-    document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = EN[el.dataset.t]; });
-    document.querySelector('[data-t="priv"]').href = '/privacy/';
+    document.querySelectorAll('[data-t]').forEach((el) => {
+      const v = EN[el.dataset.t];
+      if (v != null) el.innerHTML = v.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    });
+    document.querySelectorAll('[data-t="priv"]').forEach((a) => { a.href = '/privacy/'; });
   }
+
+  // ── Modos
+  const body = document.body;
+  const sw = document.getElementById('mode');
+  const layers = document.getElementById('layers');
+  const free = document.getElementById('free');
+  const pro = document.getElementById('pro');
+
+  // El círculo sale del centro del interruptor y su radio llega a la esquina
+  // de la pantalla más lejana: lo que queda fuera de la vista cambia de golpe
+  // al terminar (`settled` quita el recorte), y no se ve.
+  function aim() {
+    const s = sw.getBoundingClientRect();
+    const box = layers.getBoundingClientRect();
+    const cx = s.left + s.width / 2;
+    const cy = s.top + s.height / 2;
+    const r = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy));
+    layers.style.setProperty('--x', `${cx - box.left}px`);
+    layers.style.setProperty('--y', `${cy - box.top}px`);
+    layers.style.setProperty('--r', `${Math.ceil(r)}px`);
+  }
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let settleTimer;
+
+  function setMode(isPro, animate = true) {
+    if (reduced.matches) animate = false;
+    aim();
+    clearTimeout(settleTimer);
+    if (!animate) {
+      body.classList.toggle('settled', isPro);
+    } else if (!isPro && body.classList.contains('settled')) {
+      // Volver desde Pro asentado: se repone el círculo lleno sin transición
+      // y desde ahí se recoge.
+      pro.style.transition = 'none';
+      body.classList.remove('settled');
+      void pro.offsetWidth;
+      pro.style.transition = '';
+    }
+    body.classList.toggle('is-pro', isPro);
+    sw.setAttribute('aria-checked', String(isPro));
+    pro.inert = !isPro; pro.setAttribute('aria-hidden', String(!isPro));
+    free.inert = isPro; free.setAttribute('aria-hidden', String(isPro));
+    history.replaceState(null, '', isPro ? '#pro' : location.pathname + location.search);
+    // Red de seguridad: si `transitionend` no llega (pestaña oculta, transición
+    // interrumpida), la capa Pro no puede quedarse recortada a medias.
+    if (isPro && animate) settleTimer = setTimeout(settle, 600);
+  }
+
+  function settle() {
+    if (body.classList.contains('is-pro')) body.classList.add('settled');
+  }
+
+  pro.addEventListener('transitionend', (e) => {
+    if (e.propertyName === 'clip-path') settle();
+  });
+  sw.addEventListener('click', () => setMode(!body.classList.contains('is-pro')));
+  document.getElementById('toPro').addEventListener('click', () => {
+    scrollTo({ top: 0 });
+    setMode(true);
+  });
+  if (location.hash === '#pro') setMode(true, false);
 </script>
 </body>
 </html>
