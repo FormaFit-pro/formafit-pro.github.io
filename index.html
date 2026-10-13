@@ -166,6 +166,7 @@
     <footer>
       <div class="wrap">
         <a href="/privacidad/" data-t="priv">Privacidad</a>
+        <a href="/soporte/" data-t="sup">Soporte</a>
         <span>© 2026 Forma Fit</span>
       </div>
     </footer>
@@ -205,6 +206,7 @@
     <footer>
       <div class="wrap">
         <a href="/privacidad/" data-t="priv">Privacidad</a>
+        <a href="/soporte/" data-t="sup">Soporte</a>
         <span>© 2026 Forma Fit</span>
       </div>
     </footer>
@@ -232,6 +234,7 @@
       toPro: 'Are you a coach? See Forma Fit Pro →',
       soon: 'Coming soon to Google Play and the App Store',
       priv: 'Privacy',
+      sup: 'Support',
       pH1: 'Connect with all your clients',
       pTag: 'One app to train them all',
       p1t: '*Unlimited* clients',
@@ -251,6 +254,7 @@
       if (v != null) el.innerHTML = v.replace(/\*(.+?)\*/g, '<em>$1</em>');
     });
     document.querySelectorAll('[data-t="priv"]').forEach((a) => { a.href = '/privacy/'; });
+    document.querySelectorAll('[data-t="sup"]').forEach((a) => { a.href = '/support/'; });
   }
 
   // ── Modos

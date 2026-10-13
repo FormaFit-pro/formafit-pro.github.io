@@ -55,6 +55,7 @@
 <footer>
   <div class="wrap">
     <a href="/privacidad/" data-t="priv">Privacidad</a>
+    <a href="/soporte/" data-t="sup">Soporte</a>
     <span>© 2026 Forma Fit</span>
   </div>
 </footer>
@@ -74,12 +75,14 @@
     noApp: 'Don’t have the app yet?',
     iosSoon: 'App Store · coming soon',
     priv: 'Privacy',
+    sup: 'Support',
   };
   const en = !navigator.language.toLowerCase().startsWith('es');
   if (en) {
     document.documentElement.lang = 'en';
     document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = EN[el.dataset.t]; });
     document.querySelector('[data-t="priv"]').href = '/privacy/';
+    document.querySelector('[data-t="sup"]').href = '/support/';
   }
 
   const ua = navigator.userAgent;

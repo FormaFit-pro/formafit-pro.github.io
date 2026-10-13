@@ -140,3 +140,26 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 .prose th, .prose td { text-align: left; vertical-align: top; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--border); }
 .prose th { color: var(--muted); font-weight: 700; }
 .table-scroll { overflow-x: auto; }
+
+/* Preguntas frecuentes (soporte): <details> nativo, sin JS. */
+.prose details { border-bottom: 1px solid var(--border); }
+.prose summary {
+  cursor: pointer;
+  font-weight: 800;
+  padding: 14px 28px 14px 0;
+  list-style: none;
+  position: relative;
+}
+.prose summary::-webkit-details-marker { display: none; }
+.prose summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 12px;
+  font: 900 20px/1 Inter, sans-serif;
+  color: var(--accent);
+}
+.prose details[open] summary::after { content: "−"; }
+.prose summary:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+.prose details > :last-child { margin-bottom: 18px; }
+.prose ol li { margin: 4px 0; }
