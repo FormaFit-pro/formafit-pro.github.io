@@ -22,7 +22,8 @@
 :root {
   --lime: #aae216; --green: #3f6212; /* verde de texto sobre lima: 4,6:1 */
   --card: #222; --text: #e6e6e6; --muted: #949494; --dark: #121212;
-  --max: 1040px; --inner: 1008px; /* ancho de la cabecera */
+  --max: 1312px; --inner: 1280px; /* ancho de la cabecera */
+  --pad: 22px; /* relleno lateral de las tarjetas grandes */
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -35,8 +36,9 @@ em { font-style: normal; }
 :focus-visible { outline: 3px solid #000; outline-offset: 3px; }
 
 /* Logo */
-.top { display: flex; justify-content: center; padding: 22px 0 18px; }
-.logo { display: inline-flex; align-items: baseline; gap: .2em; font-size: 28px; color: #000; text-decoration: none; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 18px 0 16px; }
+.logo { display: inline-flex; align-items: baseline; gap: .2em; font-size: clamp(22px, 6vw, 28px); color: #000; text-decoration: none; }
+.logo .ff { width: 1.5em; height: 1.5em; align-self: center; margin-right: .1em; mix-blend-mode: multiply; }
 .logo b { font: italic 900 1em/1 Inter; letter-spacing: -.06em; }
 .logo svg { height: .727em; width: calc(.727em * 3); fill: #000; }
 
@@ -82,18 +84,20 @@ body[data-os] .both { display: none; }
 @keyframes bob { 50% { transform: translateY(3px); } }
 
 @media (max-width: 859px) { .desk-only { display: none; } }
+@media (min-width: 860px) { :root { --pad: 48px; } }
 @media (min-width: 860px) {
-  .hero { grid-template-columns: 1fr 300px; padding: 40px 18px 18px 40px; border-radius: 40px; }
+  .hero { grid-template-columns: 1fr 320px; padding: 44px 18px 18px var(--pad); border-radius: 40px; }
   .hero > .txt { padding-bottom: 22px; align-self: center; }
   .dl { border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
   .dl-mob { display: none; }
   .dl-desk { display: contents; }
-  .dl .mark { width: 110px; margin: -16px 0 -16px; }
   .qr { display: grid; justify-items: center; gap: 10px; background: #000; color: var(--lime); border-radius: 18px; padding: 14px 14px 12px; }
-  .qr .code { background: var(--lime); padding: 8px; border-radius: 10px; line-height: 0; }
-  .qr .code img, .qr .code canvas { width: 168px !important; height: 168px !important; }
+  .qr .code { position: relative; background: var(--lime); padding: 8px; border-radius: 10px; line-height: 0; }
+  .qr .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 9px; background: var(--lime); box-shadow: 0 0 0 4px var(--lime); }
+  .qr .center img { width: 100%; height: auto; mix-blend-mode: multiply; }
+  .qr .code > img, .qr .code > canvas { width: 196px !important; height: 196px !important; }
   .qr b { font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; }
-  .notch { left: calc(100% - 168px); }
+  .notch { left: calc(100% - 178px); }
 }
 
 /* ── Carrusel de quien entrena ── */
@@ -104,7 +108,7 @@ body[data-os] .both { display: none; }
 .track { --col: calc(100% - 40px); display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 12px; padding-inline: calc((100% - var(--col)) / 2); /* 100% = la caja sin el relleno = --col */ overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .track::-webkit-scrollbar { display: none; }
 .slide { scroll-snap-align: center; background: var(--card); color: var(--text); border-radius: 28px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
-.slide .copy { padding: 26px 22px 18px; }
+.slide .copy { padding: 28px var(--pad) 18px; }
 .tag { display: inline-block; font: 900 11px/1 Inter; letter-spacing: .08em; padding: 6px 8px; border-radius: 6px; background: var(--lime); color: #000; margin-bottom: 12px; }
 .slide h3 { font: italic 800 clamp(34px, 9vw, 48px)/.95 "Barlow Condensed"; margin: 0 0 12px; color: #fff; }
 .slide p { margin: 0; color: #d2d2d2; }
@@ -127,10 +131,10 @@ body[data-os] .both { display: none; }
 .dots button[aria-current="true"] { width: 40px; background: #000; }
 @media (min-width: 860px) {
   .track { --col: min(var(--inner), 100% - 48px); gap: 18px; }
-  .slide { grid-template-columns: 1fr 1fr; grid-template-rows: none; height: 540px; }
-  .slide .copy { padding: 48px; align-self: center; }
-  .shot { height: auto; padding-top: 40px; }
-  .phone { width: 310px; }
+  .slide { grid-template-columns: 1.25fr 1fr; grid-template-rows: none; height: 470px; }
+  .slide .copy { padding: 64px var(--pad); max-width: 600px; }
+  .shot { height: auto; padding-top: 44px; }
+  .phone { width: 270px; }
   /* Lo que sale del ancho de la cabecera, en degradado */
   .carousel { --fade: max(0px, (100% - var(--inner)) / 2); -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent); }
 }
@@ -139,11 +143,13 @@ body[data-os] .both { display: none; }
 
 /* ── Entrenadores: título en negro; las tarjetas se montan sobre su borde ── */
 .pro { margin-top: 10px; }
-.pro-head { background: #000; color: var(--text); border-radius: 40px; margin: 0 max(8px, (100% - var(--inner)) / 2); padding: 56px 0 150px; }
+.pro-head { background: #000; color: var(--text); border-radius: 40px; margin: 0 max(16px, (100% - var(--inner)) / 2); padding: 56px var(--pad) 150px; }
+.pro-head > div { max-width: 760px; }
 .pro h2 { font-size: clamp(42px, 11vw, 68px); margin: 4px 0 14px; color: #fff; text-transform: uppercase; }
 .pro h2 em { color: var(--lime); }
+.pro-tag { font-size: 14px; padding: 7px 10px; vertical-align: .55em; margin: 0 0 0 6px; }
 .pro .sub { color: #cfcfcf; max-width: 50ch; margin: 0; font-size: 17px; }
-.mini { display: grid; grid-auto-flow: column; grid-auto-columns: min(290px, 82%); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-top: -120px; padding-bottom: 24px; padding-inline: max(16px, (100% - var(--max)) / 2 + 16px); scroll-padding-inline: max(16px, (100% - var(--max)) / 2 + 16px); }
+.mini { display: grid; grid-auto-flow: column; grid-auto-columns: min(290px, 82%); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-top: -120px; padding-bottom: 24px; --edge: calc(max(16px, (100% - var(--inner)) / 2) + var(--pad)); padding-inline: var(--edge); scroll-padding-inline: var(--edge); }
 .mini::-webkit-scrollbar { display: none; }
 .mcard { scroll-snap-align: start; background: #1c1c1c; box-shadow: 0 0 0 1px #343434, 0 18px 36px rgba(0,0,0,.3); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; }
 .mvis { height: 210px; position: relative; overflow: hidden; background: #262626; display: grid; place-items: center; padding: 16px; }
@@ -171,13 +177,13 @@ body[data-os] .both { display: none; }
 .pro-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin-top: 12px; font: 800 17px/1.3 Inter; }
 
 /* ── Interruptor Gratis / PRO: cambia la cabecera y el orden de los carruseles ── */
-.tools { position: fixed; top: 12px; right: 12px; z-index: 30; display: flex; gap: 6px; }
+.tools { display: flex; gap: 6px; flex: none; }
 .switch, .lang { display: flex; padding: 4px; border: 0; border-radius: 999px; background: #000; cursor: pointer; font: 900 12px/1 Inter; letter-spacing: .08em; }
 .switch span, .lang button { padding: 9px 12px; border-radius: 999px; color: #8a8a8a; }
 .lang button { border: 0; background: none; font: inherit; letter-spacing: inherit; cursor: pointer; padding: 9px 9px; }
 .lang button[aria-pressed="true"] { color: #fff; background: #333; }
 body:not(.is-pro) .switch .s-free, .is-pro .switch .s-pro { background: var(--lime); color: #000; }
-@media (max-width: 859px) { .top { justify-content: flex-start; } .tools { position: absolute; top: 20px; right: 16px; } }
+@media (max-width: 400px) { .switch span, .lang button { padding: 8px 8px; font-size: 11px; } .logo .ff { display: none; } }
 .is-pro [data-m="free"], body:not(.is-pro) [data-m="pro"] { display: none; }
 .is-pro #pro-sec { order: -1; margin-top: 76px; }
 .is-pro .feat { padding-top: 60px; }
@@ -232,14 +238,13 @@ footer a { color: var(--muted); }
   <symbol id="ap" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5Z"/></symbol>
 </svg>
 
-<div class="tools">
-  <div class="lang" id="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es" lang="es">ES</button><button type="button" data-l="en" lang="en">EN</button></div>
-  <button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
-</div>
-
 <div class="wrap">
   <div class="top">
-    <a class="logo" href="/" aria-label="Forma Fit"><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
+    <a class="logo" href="/" aria-label="Forma Fit"><img class="ff" src="/img/ff.png" width="400" height="400" alt=""><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
+    <div class="tools">
+    <div class="lang" id="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es" lang="es">ES</button><button type="button" data-l="en" lang="en">EN</button></div>
+    <button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
+  </div>
   </div>
 
   <header class="hero" id="hero">
@@ -247,9 +252,9 @@ footer a { color: var(--muted); }
       <h1 class="disp" data-m="free" data-t="fH1">Entrena, registra,<br><em>progresa</em></h1>
       <h1 class="disp" data-m="pro" data-t="pH1">Una app para <em>entrenarlos a todos</em></h1>
       <p class="claim" data-m="free" data-t="fClaim">Gratis. Sin anuncios. Sin tonterías.</p>
-      <p class="claim" data-m="pro" data-t="pClaim">Para entrenadores. Gratis hasta 3 clientes.</p>
+      <p class="claim" data-m="pro" data-t="pClaim">Para entrenadores.</p>
       <p class="lead" data-m="free" data-t="fLead">Forma Fit es una app pensada para la <em>gente que entrena</em>. Crea o elige un programa, registra tus entrenos y mide tu progreso. Nada más y nada menos… o sí.</p>
-      <p class="lead" data-m="pro" data-t="pLead">Crea el programa de cada cliente, mándaselo y recibe sus entrenos, tengan la app o no. Sin hojas de cálculo ni mensajes sueltos.</p>
+      <p class="lead" data-m="pro" data-t="pLead">Pensada para que entrenes a tus clientes de la misma forma que entrenas tú, sin salir de la app. Tú programas, ellos entrenan.</p>
       <div class="badges desk-only">
         <a class="badge" data-store="play" href="#"><svg aria-hidden="true"><use href="#gp"/></svg><span data-t="bPlay">Disponible en<b>Google Play</b></span></a>
         <a class="badge light" data-store="ios" href="#"><svg aria-hidden="true"><use href="#ap"/></svg><span data-t="bIos">Consíguelo en el<b>App Store</b></span></a>
@@ -258,7 +263,6 @@ footer a { color: var(--muted); }
 
     <div class="dl">
       <div class="dl-desk">
-        <img class="mark" src="/img/ff.png" width="400" height="400" alt="">
         <div class="qr"><div class="code" id="qr"></div><b data-t="qrT">Escanea y descarga</b></div>
       </div>
       <div class="dl-mob">
@@ -279,22 +283,21 @@ footer a { color: var(--muted); }
 <!-- En modo PRO va primero el carrusel de entrenadores -->
 <div class="flow">
 <section class="feat" id="que-hace">
-  <div class="wrap"><h2 class="disp" data-t="featH">Pensada para <em>entrenar</em>, no para mirarla</h2></div>
+  <div class="wrap"><h2 class="disp" data-t="featH">Pensada para <em>entrenar</em>, sin distracciones</h2></div>
   <div class="track carousel" id="track">
-    <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s1t">Crea tu programa</h3><p data-t="s1d">Crea, modifica y adapta tu programa de entrenamiento para cualquier disciplina.</p><ul><li data-t="s1a">Fácil, rápido y flexible</li><li data-t="s1b">Divide el programa en etapas para que progrese contigo</li></ul></div><div class="shot"><div class="phone"><img src="/img/editor.jpg" width="600" height="1300" loading="lazy" alt="Editor de programa por etapas" data-t-alt="a1"></div></div></article>
-    <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s2t">Abre la app y entrena</h3><p data-t="s2d">Directo a lo que importa. La sesión de hoy, lista para empezar.</p><ul><li data-t="s2a">Rotación, orden fijo o libre</li><li data-t="s2b">Todas tus sesiones accesibles</li></ul></div><div class="shot"><div class="phone"><img src="/img/entreno.jpg" width="600" height="1300" loading="lazy" alt="Pantalla Entreno con la sesión de hoy" data-t-alt="a2"></div></div></article>
-    <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s3t">Apunta sin perder el ritmo</h3><p data-t="s3d">Introduce tu entrenamiento de forma rápida y ágil.</p><ul><li data-t="s3a">Desliza para introducir datos</li><li data-t="s3b">Añade series y ejercicios si lo necesitas</li></ul></div><div class="shot"><div class="phone"><img src="/img/registro.jpg" width="600" height="1300" loading="lazy" alt="Registro de series durante el entreno" data-t-alt="a3"></div></div></article>
-    <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s4t">Mide tu progreso</h3><p data-t="s4d">Cada ejercicio con su gráfica, tus marcas y lo que has mejorado.</p><ul><li data-t="s4a">Peso, reps, volumen y 1RM estimado</li><li data-t="s4b">Carga de entrenamiento semana a semana</li></ul></div><div class="shot"><div class="phone crop"><img src="/img/progresion.jpg" width="600" height="1300" loading="lazy" alt="Gráfica de progresión de un ejercicio" data-t-alt="a4"></div></div></article>
-    <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s5t">Tu entrenador</h3><p data-t="s5d">Si tienes un entrenador, conecta con él y recibe su programa en tu app. Él verá tu progreso en tiempo real.</p><ul><li data-t="s5a">Programa e historial siempre sincronizados</li><li data-t="s5b">¿No tiene Forma Fit? Invítale</li></ul></div><div class="shot"><div class="phone"><img src="/img/programa.jpg" width="600" height="1300" loading="lazy" alt="Programa con sus etapas" data-t-alt="a5"></div></div></article>
+    <article class="slide"><div class="copy"><h3 data-t="s1t">Crea tu programa</h3><p data-t="s1d">Crea, modifica y adapta tu programa de entrenamiento para cualquier disciplina.</p><ul><li data-t="s1a">Fácil, rápido y flexible</li><li data-t="s1b">Divide el programa en etapas para que progrese contigo</li></ul></div><div class="shot"><div class="phone"><img src="/img/editor.jpg" width="600" height="1300" loading="lazy" alt="Editor de programa por etapas" data-t-alt="a1"></div></div></article>
+    <article class="slide"><div class="copy"><h3 data-t="s2t">Abre la app y entrena</h3><p data-t="s2d">Directo a lo que importa. La sesión de hoy, lista para empezar.</p><ul><li data-t="s2a">Rotación, orden fijo o libre</li><li data-t="s2b">Todas tus sesiones accesibles</li></ul></div><div class="shot"><div class="phone"><img src="/img/entreno.jpg" width="600" height="1300" loading="lazy" alt="Pantalla Entreno con la sesión de hoy" data-t-alt="a2"></div></div></article>
+    <article class="slide"><div class="copy"><h3 data-t="s3t">Apunta sin perder el ritmo</h3><p data-t="s3d">Introduce tu entrenamiento de forma rápida y ágil.</p><ul><li data-t="s3a">Desliza para introducir datos</li><li data-t="s3b">Añade series y ejercicios si lo necesitas</li></ul></div><div class="shot"><div class="phone"><img src="/img/registro.jpg" width="600" height="1300" loading="lazy" alt="Registro de series durante el entreno" data-t-alt="a3"></div></div></article>
+    <article class="slide"><div class="copy"><h3 data-t="s4t">Mide tu progreso</h3><p data-t="s4d">Cada ejercicio con su gráfica, tus marcas y lo que has mejorado.</p><ul><li data-t="s4a">Peso, reps, volumen y 1RM estimado</li><li data-t="s4b">Carga de entrenamiento semana a semana</li></ul></div><div class="shot"><div class="phone crop"><img src="/img/progresion.jpg" width="600" height="1300" loading="lazy" alt="Gráfica de progresión de un ejercicio" data-t-alt="a4"></div></div></article>
+    <article class="slide"><div class="copy"><h3 data-t="s5t">Tu entrenador</h3><p data-t="s5d">Si tienes un entrenador, conecta con él y recibe su programa en tu app. Él verá tu progreso en tiempo real.</p><ul><li data-t="s5a">Programa e historial siempre sincronizados</li><li data-t="s5b">¿No tiene Forma Fit? Invítale</li></ul></div><div class="shot"><div class="phone"><img src="/img/programa.jpg" width="600" height="1300" loading="lazy" alt="Programa con sus etapas" data-t-alt="a5"></div></div></article>
   </div>
   <div class="nav"><button class="arr" type="button" data-dir="-1" aria-label="Anterior">‹</button><div class="dots"></div><button class="arr" type="button" data-dir="1" aria-label="Siguiente">›</button></div>
   <div class="wrap after"><span data-t="afterF">Todo esto, gratis y sin anuncios.</span><a class="cta" href="#final" data-t="dlBtn">Descargar</a></div>
 </section>
 
 <section class="pro" id="pro-sec">
-  <div class="pro-head"><div class="wrap">
-    <span class="tag">PRO</span>
-    <h2 class="disp" data-t="proH">Para <em>entrenadores</em></h2>
+  <div class="pro-head"><div>
+    <h2 class="disp"><span data-t="proH">Para <em>entrenadores</em></span> <span class="tag pro-tag">PRO</span></h2>
     <p class="sub" data-t="proD">Si eres entrenador, Forma Fit Pro te ayuda a gestionar a tus clientes. Programa y ve sus entrenos en un solo sitio.</p>
   </div></div>
   <div class="mini carousel">
@@ -393,9 +396,9 @@ footer a { color: var(--muted); }
       fH1: 'Train, log,<br>*progress*',
       pH1: 'One app to *train them all*',
       fClaim: 'Free. No ads. No nonsense.',
-      pClaim: 'For coaches. Free for up to 3 clients.',
+      pClaim: 'For coaches.',
       fLead: 'Forma Fit is an app built for *people who train*. Build or pick a program, log your workouts and measure your progress. Nothing more, nothing less… or maybe more.',
-      pLead: 'Build each client’s program, send it and get their workouts back, whether they have the app or not. No spreadsheets, no scattered messages.',
+      pLead: 'Built so you train your clients the same way you train yourself, without leaving the app. You program, they train.',
       bPlay: 'Get it on<b>Google Play</b>',
       bIos: 'Download on the<b>App Store</b>',
       bPlayS: 'On<b>Google Play</b>',
@@ -403,8 +406,7 @@ footer a { color: var(--muted); }
       qrT: 'Scan to download',
       free: 'Free · no ads',
       go: 'Download free',
-      featH: 'Made for *training*, not for staring at',
-      tagFree: 'FREE',
+      featH: 'Made for *training*, no distractions',
       s1t: 'Build your program',
       s1d: 'Create, edit and adapt your training program for any discipline.',
       s1a: 'Easy, fast and flexible',
@@ -515,7 +517,11 @@ footer a { color: var(--muted); }
 
   // QR a esta misma web: en el móvil, el botón de arriba ya lleva a su tienda.
   addEventListener('DOMContentLoaded', () => {
-    if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://formafit-pro.github.io/', width: 336, height: 336, colorDark: '#000', colorLight: '#aae216' });
+    if (!window.QRCode) return;
+    // Corrección alta (H, 30 %): aguanta la F tapando el centro.
+    const qr = document.getElementById('qr');
+    new QRCode(qr, { text: 'https://formafit-pro.github.io/', width: 392, height: 392, colorDark: '#000', colorLight: '#aae216', correctLevel: QRCode.CorrectLevel.H });
+    qr.insertAdjacentHTML('beforeend', '<span class="center"><img src="/img/ff.png" alt=""></span>');
   });
 
   // ── Carruseles: puntos y flechas (en escritorio no se desliza con el dedo)
