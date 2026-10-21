@@ -22,7 +22,7 @@
 :root {
   --lime: #aae216; --green: #3f6212; /* verde de texto sobre lima: 4,6:1 */
   --card: #222; --text: #e6e6e6; --muted: #949494; --dark: #121212;
-  --max: 1040px;
+  --max: 1040px; --inner: 1008px; /* ancho de la cabecera */
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -88,12 +88,11 @@ body[data-os] .both { display: none; }
   .dl { border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
   .dl-mob { display: none; }
   .dl-desk { display: contents; }
-  .dl .mark { width: 150px; margin: -14px 0 -18px; }
-  .qr { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; background: #000; color: var(--lime); border-radius: 16px; padding: 10px 14px 10px 10px; width: 100%; }
-  .qr .code { background: var(--lime); padding: 5px; border-radius: 8px; line-height: 0; width: 92px; height: 92px; }
-  .qr .code img, .qr .code canvas { width: 82px !important; height: 82px !important; }
-  .qr b { font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; display: block; }
-  .qr span { font: 700 12px/1.35 Inter; color: #cfcfcf; }
+  .dl .mark { width: 110px; margin: -16px 0 -16px; }
+  .qr { display: grid; justify-items: center; gap: 10px; background: #000; color: var(--lime); border-radius: 18px; padding: 14px 14px 12px; }
+  .qr .code { background: var(--lime); padding: 8px; border-radius: 10px; line-height: 0; }
+  .qr .code img, .qr .code canvas { width: 168px !important; height: 168px !important; }
+  .qr b { font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; }
   .notch { left: calc(100% - 168px); }
 }
 
@@ -102,7 +101,7 @@ body[data-os] .both { display: none; }
 .feat { padding: 76px 0 40px; }
 .feat h2 { font-size: clamp(40px, 10vw, 64px); margin: 0 0 24px; }
 .feat h2 em { color: var(--green); }
-.track { --col: calc(100% - 40px); display: grid; grid-auto-flow: column; grid-auto-columns: var(--col); gap: 12px; padding-inline: calc((100% - var(--col)) / 2); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.track { --col: calc(100% - 40px); display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 12px; padding-inline: calc((100% - var(--col)) / 2); /* 100% = la caja sin el relleno = --col */ overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .track::-webkit-scrollbar { display: none; }
 .slide { scroll-snap-align: center; background: var(--card); color: var(--text); border-radius: 28px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
 .slide .copy { padding: 26px 22px 18px; }
@@ -119,22 +118,28 @@ body[data-os] .both { display: none; }
 /* Progresión: empieza en la gráfica, sin la cabecera */
 .phone.crop { overflow: hidden; }
 .phone.crop img { margin-top: -78%; }
-.dots { display: flex; justify-content: center; gap: 6px; margin-top: 18px; }
+.nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 18px; }
+.dots { display: flex; gap: 6px; }
+.arr { width: 40px; height: 40px; border-radius: 50%; border: 0; background: #000; color: var(--lime); font: 900 24px/1 Inter; cursor: pointer; display: grid; place-items: center; padding-bottom: 3px; }
+.carousel { position: relative; }
+.arr:disabled { opacity: .3; cursor: default; }
 .dots button { width: 10px; height: 10px; border-radius: 5px; border: 0; padding: 0; background: rgba(0,0,0,.35); cursor: pointer; transition: width .2s, background .2s; }
 .dots button[aria-current="true"] { width: 40px; background: #000; }
 @media (min-width: 860px) {
-  .track { --col: min(880px, 100% - 140px); gap: 18px; }
-  .slide { grid-template-columns: 1.15fr .85fr; grid-template-rows: none; height: 400px; }
-  .slide .copy { padding: 44px; align-self: center; }
-  .shot { height: auto; padding-top: 34px; }
-  .phone { width: 250px; }
+  .track { --col: min(var(--inner), 100% - 48px); gap: 18px; }
+  .slide { grid-template-columns: 1fr 1fr; grid-template-rows: none; height: 540px; }
+  .slide .copy { padding: 48px; align-self: center; }
+  .shot { height: auto; padding-top: 40px; }
+  .phone { width: 310px; }
+  /* Lo que sale del ancho de la cabecera, en degradado */
+  .carousel { --fade: max(0px, (100% - var(--inner)) / 2); -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent); mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent); }
 }
 .after { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin-top: 30px; font: 800 17px/1.3 Inter; text-align: center; }
 .cta { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 14px; background: #000; color: var(--lime); text-decoration: none; font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; }
 
 /* ── Entrenadores: título en negro; las tarjetas se montan sobre su borde ── */
 .pro { margin-top: 10px; }
-.pro-head { background: #000; color: var(--text); border-radius: 40px; margin: 0 8px; padding: 56px 0 150px; }
+.pro-head { background: #000; color: var(--text); border-radius: 40px; margin: 0 max(8px, (100% - var(--inner)) / 2); padding: 56px 0 150px; }
 .pro h2 { font-size: clamp(42px, 11vw, 68px); margin: 4px 0 14px; color: #fff; text-transform: uppercase; }
 .pro h2 em { color: var(--lime); }
 .pro .sub { color: #cfcfcf; max-width: 50ch; margin: 0; font-size: 17px; }
@@ -166,10 +171,13 @@ body[data-os] .both { display: none; }
 .pro-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin-top: 12px; font: 800 17px/1.3 Inter; }
 
 /* ── Interruptor Gratis / PRO: cambia la cabecera y el orden de los carruseles ── */
-.switch { position: fixed; top: 12px; right: 12px; z-index: 30; display: flex; padding: 4px; border: 0; border-radius: 999px; background: #000; cursor: pointer; font: 900 12px/1 Inter; letter-spacing: .08em; }
-.switch span { padding: 9px 12px; border-radius: 999px; color: #8a8a8a; }
+.tools { position: fixed; top: 12px; right: 12px; z-index: 30; display: flex; gap: 6px; }
+.switch, .lang { display: flex; padding: 4px; border: 0; border-radius: 999px; background: #000; cursor: pointer; font: 900 12px/1 Inter; letter-spacing: .08em; }
+.switch span, .lang button { padding: 9px 12px; border-radius: 999px; color: #8a8a8a; }
+.lang button { border: 0; background: none; font: inherit; letter-spacing: inherit; cursor: pointer; padding: 9px 9px; }
+.lang button[aria-pressed="true"] { color: #fff; background: #333; }
 body:not(.is-pro) .switch .s-free, .is-pro .switch .s-pro { background: var(--lime); color: #000; }
-@media (max-width: 859px) { .top { justify-content: flex-start; } .switch { position: absolute; top: 20px; right: 16px; } }
+@media (max-width: 859px) { .top { justify-content: flex-start; } .tools { position: absolute; top: 20px; right: 16px; } }
 .is-pro [data-m="free"], body:not(.is-pro) [data-m="pro"] { display: none; }
 .is-pro #pro-sec { order: -1; margin-top: 76px; }
 .is-pro .feat { padding-top: 60px; }
@@ -224,7 +232,10 @@ footer a { color: var(--muted); }
   <symbol id="ap" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5Z"/></symbol>
 </svg>
 
-<button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
+<div class="tools">
+  <div class="lang" id="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es" lang="es">ES</button><button type="button" data-l="en" lang="en">EN</button></div>
+  <button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
+</div>
 
 <div class="wrap">
   <div class="top">
@@ -248,7 +259,7 @@ footer a { color: var(--muted); }
     <div class="dl">
       <div class="dl-desk">
         <img class="mark" src="/img/ff.png" width="400" height="400" alt="">
-        <div class="qr"><div class="code" id="qr"></div><div><b data-t="qrT">Escanea y descarga</b><span data-t="qrD">Abre la cámara del móvil y te lleva a tu tienda.</span></div></div>
+        <div class="qr"><div class="code" id="qr"></div><b data-t="qrT">Escanea y descarga</b></div>
       </div>
       <div class="dl-mob">
         <div class="icon"><img src="/img/ff.png" width="400" height="400" alt=""></div>
@@ -269,14 +280,14 @@ footer a { color: var(--muted); }
 <div class="flow">
 <section class="feat" id="que-hace">
   <div class="wrap"><h2 class="disp" data-t="featH">Pensada para <em>entrenar</em>, no para mirarla</h2></div>
-  <div class="track" id="track">
+  <div class="track carousel" id="track">
     <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s1t">Crea tu programa</h3><p data-t="s1d">Crea, modifica y adapta tu programa de entrenamiento para cualquier disciplina.</p><ul><li data-t="s1a">Fácil, rápido y flexible</li><li data-t="s1b">Divide el programa en etapas para que progrese contigo</li></ul></div><div class="shot"><div class="phone"><img src="/img/editor.jpg" width="600" height="1300" loading="lazy" alt="Editor de programa por etapas" data-t-alt="a1"></div></div></article>
     <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s2t">Abre la app y entrena</h3><p data-t="s2d">Directo a lo que importa. La sesión de hoy, lista para empezar.</p><ul><li data-t="s2a">Rotación, orden fijo o libre</li><li data-t="s2b">Todas tus sesiones accesibles</li></ul></div><div class="shot"><div class="phone"><img src="/img/entreno.jpg" width="600" height="1300" loading="lazy" alt="Pantalla Entreno con la sesión de hoy" data-t-alt="a2"></div></div></article>
     <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s3t">Apunta sin perder el ritmo</h3><p data-t="s3d">Introduce tu entrenamiento de forma rápida y ágil.</p><ul><li data-t="s3a">Desliza para introducir datos</li><li data-t="s3b">Añade series y ejercicios si lo necesitas</li></ul></div><div class="shot"><div class="phone"><img src="/img/registro.jpg" width="600" height="1300" loading="lazy" alt="Registro de series durante el entreno" data-t-alt="a3"></div></div></article>
     <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s4t">Mide tu progreso</h3><p data-t="s4d">Cada ejercicio con su gráfica, tus marcas y lo que has mejorado.</p><ul><li data-t="s4a">Peso, reps, volumen y 1RM estimado</li><li data-t="s4b">Carga de entrenamiento semana a semana</li></ul></div><div class="shot"><div class="phone crop"><img src="/img/progresion.jpg" width="600" height="1300" loading="lazy" alt="Gráfica de progresión de un ejercicio" data-t-alt="a4"></div></div></article>
     <article class="slide"><div class="copy"><span class="tag" data-t="tagFree">GRATIS</span><h3 data-t="s5t">Tu entrenador</h3><p data-t="s5d">Si tienes un entrenador, conecta con él y recibe su programa en tu app. Él verá tu progreso en tiempo real.</p><ul><li data-t="s5a">Programa e historial siempre sincronizados</li><li data-t="s5b">¿No tiene Forma Fit? Invítale</li></ul></div><div class="shot"><div class="phone"><img src="/img/programa.jpg" width="600" height="1300" loading="lazy" alt="Programa con sus etapas" data-t-alt="a5"></div></div></article>
   </div>
-  <div class="dots" id="dots"></div>
+  <div class="nav"><button class="arr" type="button" data-dir="-1" aria-label="Anterior">‹</button><div class="dots"></div><button class="arr" type="button" data-dir="1" aria-label="Siguiente">›</button></div>
   <div class="wrap after"><span data-t="afterF">Todo esto, gratis y sin anuncios.</span><a class="cta" href="#final" data-t="dlBtn">Descargar</a></div>
 </section>
 
@@ -286,7 +297,7 @@ footer a { color: var(--muted); }
     <h2 class="disp" data-t="proH">Para <em>entrenadores</em></h2>
     <p class="sub" data-t="proD">Si eres entrenador, Forma Fit Pro te ayuda a gestionar a tus clientes. Programa y ve sus entrenos en un solo sitio.</p>
   </div></div>
-  <div class="mini">
+  <div class="mini carousel">
     <article class="mcard">
       <div class="mvis"><img src="/img/clientes.jpg" width="600" height="1300" loading="lazy" alt="Lista de clientes" data-t-alt="a6" style="object-position:50% 55%"></div>
       <div class="mtxt"><h3 data-t="m1t">Todos tus clientes</h3><p data-t="m1d">Quién entrena, quién tiene programa y quién lleva días sin aparecer, de un vistazo.</p></div>
@@ -308,6 +319,7 @@ footer a { color: var(--muted); }
       <div class="mtxt"><h3 data-t="m5t">Se adapta a tus clientes</h3><p data-t="m5d">Haz ajustes puntuales a sus próximos entrenos, sin cambiarlo todo.</p></div>
     </article>
   </div>
+  <div class="nav"><button class="arr" type="button" data-dir="-1" aria-label="Anterior">‹</button><div class="dots"></div><button class="arr" type="button" data-dir="1" aria-label="Siguiente">›</button></div>
   <div class="wrap pro-cta"><span data-t="proTry">Pruébalo gratis con hasta 3 clientes.</span><a class="cta" href="#final" data-t="proBtn">Probar Pro</a></div>
 </section>
 </div>
@@ -362,8 +374,18 @@ footer a { color: var(--muted); }
   const PLAY = 'https://play.google.com/store/apps/details?id=com.formastudio.formafit';
   const APP_STORE = null; // la ficha de iOS cuando exista
 
-  // ── Idioma: español en el HTML; inglés si el navegador no pide español.
-  const en = !navigator.language.toLowerCase().startsWith('es');
+  // ── Idioma: el elegido en el selector (se recuerda); si no, español salvo
+  // que el navegador no tenga el español en ninguno de sus idiomas.
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch {}
+  const en = saved ? saved === 'en' : !navigator.languages.some((l) => l.toLowerCase().startsWith('es'));
+  document.querySelectorAll('#lang button').forEach((b) => {
+    b.setAttribute('aria-pressed', String((b.dataset.l === 'en') === en));
+    b.onclick = () => {
+      try { localStorage.setItem('lang', b.dataset.l); } catch {}
+      location.reload();
+    };
+  });
   const T = (es, enText) => (en ? enText : es);
   if (en) {
     const EN = {
@@ -379,7 +401,6 @@ footer a { color: var(--muted); }
       bPlayS: 'On<b>Google Play</b>',
       bIosS: 'On the<b>App Store</b>',
       qrT: 'Scan to download',
-      qrD: 'Open your phone’s camera and it takes you to your store.',
       free: 'Free · no ads',
       go: 'Download free',
       featH: 'Made for *training*, not for staring at',
@@ -455,6 +476,7 @@ footer a { color: var(--muted); }
     });
     document.querySelectorAll('[data-t-alt]').forEach((el) => { el.alt = ALT[el.dataset.tAlt]; });
     document.querySelector('.notch').setAttribute('aria-label', 'See what it does');
+    document.querySelectorAll('.arr').forEach((b) => b.setAttribute('aria-label', b.dataset.dir < 0 ? 'Previous' : 'Next'));
     document.querySelector('[data-t="priv"]').href = '/privacy/';
     document.querySelector('[data-t="sup"]').href = '/support/';
   }
@@ -493,27 +515,42 @@ footer a { color: var(--muted); }
 
   // QR a esta misma web: en el móvil, el botón de arriba ya lleva a su tienda.
   addEventListener('DOMContentLoaded', () => {
-    if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://formafit-pro.github.io/', width: 164, height: 164, colorDark: '#000', colorLight: '#aae216' });
+    if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://formafit-pro.github.io/', width: 336, height: 336, colorDark: '#000', colorLight: '#aae216' });
   });
 
-  // ── Carrusel: puntos
-  const track = document.getElementById('track'), dots = document.getElementById('dots');
-  const slides = [...track.children];
-  slides.forEach((s, i) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('aria-label', `${i + 1} / ${slides.length}`);
-    b.onclick = () => track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2, behavior: 'smooth' });
-    dots.append(b);
+  // ── Carruseles: puntos y flechas (en escritorio no se desliza con el dedo)
+  const paints = [];
+  document.querySelectorAll('.carousel').forEach((track) => {
+    const nav = track.nextElementSibling;
+    const dots = nav.querySelector('.dots');
+    const [prev, next] = nav.querySelectorAll('.arr');
+    const slides = [...track.children];
+    const center = track.id === 'track';
+    // Lo que el carrusel mide como «en su sitio»: centrada, o pegada a la izquierda
+    const pos = (s) => center ? s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2 : s.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft);
+    const go = (i) => track.scrollTo({ left: pos(slides[Math.max(0, Math.min(slides.length - 1, i))]), behavior: 'smooth' });
+    const current = () => slides.reduce((b, s, i) => (Math.abs(pos(s) - track.scrollLeft) < Math.abs(pos(slides[b]) - track.scrollLeft) ? i : b), 0);
+    slides.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `${i + 1} / ${slides.length}`);
+      b.onclick = () => go(i);
+      dots.append(b);
+    });
+    const end = () => track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+    function paint() {
+      const c = end() ? slides.length - 1 : current();
+      [...dots.children].forEach((b, i) => b.setAttribute('aria-current', String(i === c)));
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = end();
+    }
+    prev.onclick = () => go(current() - 1);
+    next.onclick = () => go(current() + 1);
+    track.addEventListener('scroll', paint, { passive: true });
+    paint();
+    paints.push(paint);
   });
-  function paint() {
-    const mid = track.scrollLeft + track.clientWidth / 2;
-    const dist = (s) => Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid);
-    const best = slides.reduce((b, s, i) => (dist(s) < dist(slides[b]) ? i : b), 0);
-    [...dots.children].forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
-  }
-  track.addEventListener('scroll', paint, { passive: true });
-  paint();
+  const paint = () => paints.forEach((p) => p());
 
   // ── Modo Gratis / PRO (#pro en la URL). El nuevo estado se revela en un
   // círculo que sale del interruptor y llega a la esquina más lejana.
