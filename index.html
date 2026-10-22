@@ -129,7 +129,7 @@ body[data-os] .both { display: none; }
 @media (min-width: 860px) { .sticky { display: none; } }
 
 /* Elegir camino: tres tarjetas que hacen de pestañas */
-.picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+.picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; scroll-margin-top: 12px; }
 .pick { display: grid; gap: 4px; align-content: center; justify-items: center; text-align: center; border: 0; border-radius: 16px; padding: 12px; cursor: pointer; background: rgba(0,0,0,.08); box-shadow: inset 0 0 0 1.5px rgba(0,0,0,.18); transition: background .25s, box-shadow .25s, transform .3s var(--ease); }
 .pick:hover { transform: translateY(-2px); }
 .pick b { font: italic 800 19px/1 "Barlow Condensed"; text-transform: uppercase; }
@@ -736,7 +736,8 @@ track.addEventListener('keydown', (e) => {
 
 document.addEventListener('click', (e) => {
   const g = e.target.closest('[data-go]');
-  if (g) return render(g.dataset.go);
+  // Elegir camino: el selector sube arriba y debajo queda su carrusel
+  if (g) { render(g.dataset.go); $('tabs').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
   const s = e.target.closest('[data-step]');
   if (s) goStep(+s.dataset.step);
 });
@@ -749,11 +750,26 @@ document.querySelectorAll('.feat-row').forEach((t) => io.observe(t));
 // ?os=ios|android manda (para la maqueta); si no, el navegador.
 const PLAY = 'https://play.google.com/store/apps/details?id=com.formastudio.formafit';
 const APP_STORE = null;
+// Beta: la app aún no está publicada, así que los CTA llevan a /beta/.
+// Al publicar: BETA = false (y /beta/ sobra).
+const BETA = true;
+const BETA_PAGE = '/beta/';
 const ua = navigator.userAgent;
 const os = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'ios'
   : /Android/.test(ua) ? 'android' : null;
 if (os) document.body.dataset.os = os;
 function stores(root) {
+  if (BETA) {
+    root.querySelectorAll('[data-store]').forEach((a) => {
+      a.href = BETA_PAGE;
+      a.querySelector('span').firstChild.textContent = a.dataset.store === 'ios' ? T('Beta en el', 'Beta on the') : T('Beta en', 'Beta on');
+    });
+    root.querySelectorAll('.go').forEach((go) => { go.href = BETA_PAGE; go.querySelector('span').textContent = T('Probar la beta', 'Try the beta'); });
+    root.querySelectorAll('.other').forEach((o) => { o.textContent = ''; });
+    $('stickyGo').href = BETA_PAGE;
+    $('stickyGo').textContent = T('Probar beta', 'Try beta');
+    return;
+  }
   root.querySelectorAll('[data-store="play"]').forEach((a) => { a.href = PLAY; });
   root.querySelectorAll('[data-store="ios"]').forEach((a) => {
     if (APP_STORE) { a.href = APP_STORE; return; }
