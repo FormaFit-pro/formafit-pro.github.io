@@ -166,6 +166,8 @@ body[data-os] .both { display: none; }
 @media (min-width: 860px) { .track { --cw: min(900px, 100vw - 180px); gap: 18px; } }
 
 /* Tarjeta de paso: oscura, el móvil asoma desde abajo (como landing-2) */
+/* Hacia delante, de uno en uno: el paso siguiente al asentado obliga a pararse; hacia atrás no hay tope. */
+.card.stop { scroll-snap-stop: always; }
 .card { scroll-snap-align: start; position: relative; background: var(--card); color: var(--text); border-radius: 30px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; height: min(600px, 100svh - 200px); min-height: 520px; transition: opacity .5s, transform .6s var(--ease); }
 .card:not(.on) { opacity: .55; transform: scale(.975); }
 .copy { position: relative; padding: 26px 24px 0; }
@@ -702,7 +704,13 @@ function render(key) {
   track.scrollLeft = 0;
   idx = -1;
   update();
+  setStop();
 }
+
+// La parada va en el paso siguiente al que está asentado, y solo se mueve cuando el
+// carrusel se para: si siguiera a `idx` en mitad del deslizamiento, saltaría otro más.
+function setStop() { [...track.children].forEach((c, j) => c.classList.toggle('stop', j === idx + 1)); }
+let settle;
 
 // Posición del carrusel → paso activo y barras llenándose mientras deslizas
 function update() {
@@ -723,7 +731,10 @@ function update() {
   $('swipe').classList.toggle('off', pos > .3);
 }
 let ticking = false;
-track.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); } }, { passive: true });
+track.addEventListener('scroll', () => {
+  if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); }
+  clearTimeout(settle); settle = setTimeout(setStop, 150);
+}, { passive: true });
 addEventListener('resize', update);
 
 const goStep = (i) => { const c = track.children[Math.max(0, Math.min(N - 1, i))]; track.scrollTo({ left: c.offsetLeft - track.children[0].offsetLeft, behavior: 'smooth' }); };
