@@ -66,7 +66,7 @@ footer { margin-top: 72px; background: #000; color: var(--muted); font-size: 14p
   <div class="top"><a class="logo" href="/">FormaFIT</a><a class="back" href="/" data-t="back">← Volver</a></div>
 
   <h1 class="disp" data-t="h1">Prueba<br>la beta</h1>
-  <p class="lead" data-t="lead">Forma Fit está en pruebas antes de salir en las tiendas. Entra, entrena con ella y cuéntame qué mejorarías.</p>
+  <p class="lead" data-t="lead">Forma Fit ya está en el App Store. En Android sigue en pruebas antes de salir en Google Play: entra, entrena con ella y cuéntame qué mejorarías.</p>
 
   <div class="plats">
     <section class="plat">
@@ -81,8 +81,7 @@ footer { margin-top: 72px; background: #000; color: var(--muted); font-size: 14p
     <section class="plat">
       <h2 class="plat-h"><svg aria-hidden="true"><use href="#ap"/></svg>iPhone</h2>
       <ol class="steps">
-        <li><b data-t="i1">Abre la invitación</b><p data-t="i1p">Te pedirá instalar TestFlight, la app de Apple para probar apps.</p><a class="btn" href="https://testflight.apple.com/join/rZQrqPW6" data-t="i1b">Abrir en TestFlight</a></li>
-        <li><b data-t="i2">Instálala desde TestFlight</b><p data-t="i2p">Pulsa «Aceptar» e «Instalar». Se abre como cualquier otra app.</p></li>
+        <li><b data-t="i1">Descárgala en el App Store</b><p data-t="i1p">Ya está publicada, no hace falta beta. Se instala como cualquier otra app.</p><a class="btn" href="https://apps.apple.com/app/id6797842181" data-t="i1b">Abrir en el App Store</a></li>
       </ol>
     </section>
 
@@ -94,7 +93,6 @@ footer { margin-top: 72px; background: #000; color: var(--muted); font-size: 14p
         <li><b data-t="p2">Copia tu ID</b><p><span data-t="p2a">En la app, ve a <i>Menú</i></span> <svg class="ico" viewBox="0 0 26 26" aria-hidden="true"><path d="M10 4.5H24.5V7.5H8Z M6 11.1H24.5V14.1H4Z M2.4 17.7H24.5V20.7H.4Z"/></svg> <span data-t="p2b">→ <i>Mi cuenta</i> → <i>ID de usuario</i> y pulsa copiar.</span></p></li>
         <li><b data-t="p3">Publícalo en el grupo</b><p data-t="p3p">Abre una conversación nueva y pega tu ID. Solo lo veo yo. En iPhone, únete primero al grupo.</p><a class="btn" href="https://groups.google.com/g/formafit-beta" data-t="p3b">Ir al grupo</a></li>
       </ol>
-      <p class="warn" data-t="iosWarn"><b>En iPhone, durante la prueba las compras son gratis,</b> pero el plan PRO se pierde cuando termina el periodo de pruebas. Si quieres conservarlo 6 meses, escríbeme siguiendo los pasos de arriba.</p>
     </section>
   </div>
 </div>
@@ -109,7 +107,7 @@ const en = saved ? saved === 'en' : !navigator.languages.some((l) => l.toLowerCa
 const EN = {
   back: '← Back',
   h1: 'Try<br>the beta',
-  lead: 'Forma Fit is in testing before it reaches the stores. Jump in, train with it and tell me what you’d improve.',
+  lead: 'Forma Fit is already on the App Store. On Android it’s still in testing before reaching Google Play: jump in, train with it and tell me what you’d improve.',
   a1: 'Join the testers group',
   a1p: 'With the Google account you use for the Play Store on your phone.',
   a1b: 'Join the group',
@@ -118,11 +116,9 @@ const EN = {
   a2b: 'Turn on testing',
   a3: 'Install it from Google Play',
   a3p: 'From the link on that same page. Updates arrive on their own.',
-  i1: 'Open the invite',
-  i1p: 'It will ask you to install TestFlight, Apple’s app for testing apps.',
-  i1b: 'Open in TestFlight',
-  i2: 'Install it from TestFlight',
-  i2p: 'Tap “Accept” and “Install”. It opens like any other app.',
+  i1: 'Get it on the App Store',
+  i1p: 'It’s already published, no beta needed. It installs like any other app.',
+  i1b: 'Open in the App Store',
   pH: 'Are you a coach?',
   pLead: 'If you want to work with more than 3 clients, write to me and I’ll turn on <b>PRO for 6 months</b>, with unlimited clients and templates.',
   p1: 'Create your coach account in the app',
@@ -133,7 +129,6 @@ const EN = {
   p3: 'Post it in the group',
   p3p: 'Start a new conversation and paste your ID. Only I can see it. On iPhone, join the group first.',
   p3b: 'Go to the group',
-  iosWarn: '<b>On iPhone, purchases are free during testing,</b> but the PRO plan is lost when the testing period ends. If you want to keep it for 6 months, write to me following the steps above.',
   foot: '© 2026 Forma Fit · made by Lucas',
 };
 if (en) {

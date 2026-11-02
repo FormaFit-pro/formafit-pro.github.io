@@ -757,12 +757,11 @@ document.addEventListener('click', (e) => {
 const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .2 });
 document.querySelectorAll('.feat-row').forEach((t) => io.observe(t));
 
-// ── Tiendas, como en la web: sin ficha de iOS, el App Store sale como «próximamente».
-// ?os=ios|android manda (para la maqueta); si no, el navegador.
+// ── Tiendas. ?os=ios|android manda (para la maqueta); si no, el navegador.
+// iPhone: ya está en el App Store. Android: sigue en beta cerrada, así que sus CTA llevan a /beta/.
+// Al publicar en Google Play: BETA = false (y /beta/ solo queda para los entrenadores).
 const PLAY = 'https://play.google.com/store/apps/details?id=com.formastudio.formafit';
-const APP_STORE = null;
-// Beta: la app aún no está publicada, así que los CTA llevan a /beta/.
-// Al publicar: BETA = false (y /beta/ sobra).
+const APP_STORE = 'https://apps.apple.com/app/id6797842181';
 const BETA = true;
 const BETA_PAGE = '/beta/';
 const ua = navigator.userAgent;
@@ -770,41 +769,25 @@ const os = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.max
   : /Android/.test(ua) ? 'android' : null;
 if (os) document.body.dataset.os = os;
 function stores(root) {
-  if (BETA) {
-    root.querySelectorAll('[data-store]').forEach((a) => {
-      a.href = BETA_PAGE;
-      a.querySelector('span').firstChild.textContent = a.dataset.store === 'ios' ? T('Beta en el', 'Beta on the') : T('Beta en', 'Beta on');
-    });
-    root.querySelectorAll('.go').forEach((go) => { go.href = BETA_PAGE; go.querySelector('span').textContent = T('Probar la beta', 'Try the beta'); });
-    root.querySelectorAll('.other').forEach((o) => { o.textContent = ''; });
-    $('stickyGo').href = BETA_PAGE;
-    $('stickyGo').textContent = T('Probar beta', 'Try beta');
-    return;
-  }
-  root.querySelectorAll('[data-store="play"]').forEach((a) => { a.href = PLAY; });
-  root.querySelectorAll('[data-store="ios"]').forEach((a) => {
-    if (APP_STORE) { a.href = APP_STORE; return; }
-    a.removeAttribute('href');
-    a.setAttribute('aria-disabled', 'true');
-    a.querySelector('span').firstChild.textContent = a.closest('.both') ? T('Pronto en el', 'Soon on the') : T('Próximamente en el', 'Coming soon to the');
-  });
-  if (!os) return;
   const ios = os === 'ios';
+  const android = BETA ? BETA_PAGE : PLAY;
+  root.querySelectorAll('[data-store="ios"]').forEach((a) => { a.href = APP_STORE; });
+  root.querySelectorAll('[data-store="play"]').forEach((a) => {
+    a.href = android;
+    if (BETA) a.querySelector('span').firstChild.textContent = T('Beta en', 'Beta on');
+  });
   root.querySelectorAll('.go').forEach((go) => {
     go.querySelector('use').setAttribute('href', ios ? '#ap' : '#gp');
-    if (ios && !APP_STORE) {
-      go.removeAttribute('href');
-      go.setAttribute('aria-disabled', 'true');
-      go.querySelector('span').textContent = T('Pronto en el App Store', 'Soon on the App Store');
-    } else {
-      go.href = ios ? APP_STORE : PLAY;
-      $('stickyGo').href = go.href;
-    }
+    go.href = ios ? APP_STORE : android;
+    if (BETA && !ios) go.querySelector('span').textContent = T('Probar la beta', 'Try the beta');
   });
   root.querySelectorAll('.other').forEach((o) => {
-    o.innerHTML = ios ? T('¿Tienes Android? ', 'On Android? ') + `<a href="${PLAY}">Google Play</a>`
-      : T('¿Tienes iPhone? ', 'On iPhone? ') + (APP_STORE ? `<a href="${APP_STORE}">App Store</a>` : T('App Store, próximamente', 'App Store, coming soon'));
+    o.innerHTML = !os ? '' : ios
+      ? T('¿Tienes Android? ', 'On Android? ') + `<a href="${android}">${BETA ? T('Probar la beta', 'Try the beta') : 'Google Play'}</a>`
+      : T('¿Tienes iPhone? ', 'On iPhone? ') + `<a href="${APP_STORE}">App Store</a>`;
   });
+  $('stickyGo').href = ios ? APP_STORE : android;
+  $('stickyGo').textContent = ios || !BETA ? T('Descargar', 'Download') : T('Probar beta', 'Try beta');
 }
 stores(document);
 

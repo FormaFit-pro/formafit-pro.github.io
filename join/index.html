@@ -46,8 +46,8 @@
     <section>
       <h2 data-t="noApp">¿Aún no tienes la app?</h2>
       <div class="stack">
-        <a class="btn dark" id="play" href="https://play.google.com/store/apps/details?id=com.formastudio.formafit">Google Play</a>
-        <a class="btn dark" id="ios" aria-disabled="true" data-t="iosSoon">App Store · próximamente</a>
+        <a class="btn dark" id="play" href="/beta/">Android · beta</a>
+        <a class="btn dark" id="ios" href="https://apps.apple.com/app/id6797842181">App Store</a>
       </div>
     </section>
   </div>
@@ -61,8 +61,9 @@
 </footer>
 <script>
   const PACKAGE = 'com.formastudio.formafit';
-  const PLAY = 'https://play.google.com/store/apps/details?id=' + PACKAGE;
-  const APP_STORE = null; // la ficha de iOS cuando exista
+  // Android sigue en beta cerrada: la ficha de Google Play aún no es pública (al publicar: la URL de la tienda).
+  const PLAY = 'https://formafit-pro.github.io/beta/';
+  const APP_STORE = 'https://apps.apple.com/app/id6797842181';
 
   const EN = {
     h1: 'Your coach invited you',
@@ -73,7 +74,6 @@
     copied: 'Copied',
     hint: 'Just installed the app? Paste this code when it asks for your coach’s.',
     noApp: 'Don’t have the app yet?',
-    iosSoon: 'App Store · coming soon',
     priv: 'Privacy',
     sup: 'Support',
   };
