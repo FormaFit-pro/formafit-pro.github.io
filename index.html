@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Forma Fit · Entrena, registra, progresa</title>
-<meta name="description" content="Forma Fit: crea o elige un programa, registra tus entrenos y mide tu progreso. Gratis, sin anuncios, sin tonterías. Y para entrenadores, Forma Fit Pro.">
-<meta property="og:title" content="Forma Fit · Entrena, registra, progresa">
-<meta property="og:description" content="Gratis, sin anuncios, sin tonterías. Y para entrenadores, Forma Fit Pro.">
+<title>Budi · Entrena, registra, progresa</title>
+<meta name="description" content="Budi: crea o elige un programa, registra tus entrenos y mide tu progreso. Gratis, sin anuncios, sin tonterías. Y para entrenadores, Budi Pro.">
+<meta property="og:title" content="Budi · Entrena, registra, progresa">
+<meta property="og:description" content="Gratis, sin anuncios, sin tonterías. Y para entrenadores, Budi Pro.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://formafit-pro.github.io/">
+<meta property="og:url" content="https://budiapp.app/">
 <meta name="theme-color" content="#aae216">
 <link rel="icon" href="/favicon.png">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -37,8 +37,7 @@ em { font-style: normal; }
 /* Logo */
 .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; padding: 18px 0 16px; }
 .logo { display: inline-flex; align-items: baseline; gap: .2em; margin-bottom: -.15em; font-size: clamp(22px, 6vw, 28px); color: #000; text-decoration: none; }
-.logo b { font: italic 900 1em/1 Inter; letter-spacing: -.06em; }
-.logo svg { height: .727em; width: calc(.727em * 3); fill: #000; }
+.logo svg { height: 1em; width: calc(1em * 380 / 185); fill: #000; }
 
 /* Idioma e interruptor Gratis / PRO (#pro en la URL): cambia el hero, la cabecera
    del flujo y el camino que sale primero */
@@ -80,8 +79,8 @@ body:not(.is-pro) .switch .s-free, .is-pro .switch .s-pro { background: var(--li
 .dl { position: relative; background: var(--lime); color: #000; border-radius: 26px; padding: 22px; }
 .dl-desk { display: none; }
 .dl-mob { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; }
-.icon { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(150deg, #c4f23a, #7fb20e); overflow: hidden; box-shadow: 0 0 0 1.5px rgba(0,0,0,.15); }
-.icon img { width: 100%; height: auto; display: block; mix-blend-mode: multiply; }
+.icon { width: 64px; height: 64px; border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1.5px rgba(0,0,0,.15); }
+.icon img { width: 100%; height: auto; display: block; }
 .dl-mob b { font: 900 18px/1.2 Inter; display: block; }
 .dl-mob small { font: 700 13px/1.3 Inter; opacity: .7; }
 .go { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border-radius: 14px; background: #000; color: var(--lime); text-decoration: none; font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; letter-spacing: .02em; }
@@ -112,7 +111,7 @@ body[data-os] .both { display: none; }
   .qr { display: grid; justify-items: center; gap: 10px; background: #000; color: var(--lime); border-radius: 18px; padding: 14px 14px 12px; }
   .qr .code { position: relative; background: var(--lime); padding: 8px; border-radius: 10px; line-height: 0; }
   .qr .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 9px; background: var(--lime); box-shadow: 0 0 0 4px var(--lime); }
-  .qr .center img { width: 100%; height: auto; mix-blend-mode: multiply; }
+  .qr .center img { width: 100%; height: auto; border-radius: 9px; display: block; }
   .qr .code > img, .qr .code > canvas { width: 196px !important; height: 196px !important; }
   .qr b { font: italic 800 22px/1 "Barlow Condensed"; text-transform: uppercase; }
   .notch, .notch-t { left: calc(100% - 178px); }
@@ -331,10 +330,10 @@ footer a { color: var(--muted); }
 
 <div class="wrap">
   <div class="top">
-    <a class="logo" href="/" aria-label="Forma Fit"><b>Forma</b><svg viewBox="0 0 378 126" aria-hidden="true"><path d="M184.827 126H163.739C162.466 126 161.512 124.836 161.762 123.589L186.155 1.62099C186.344 0.678667 187.171 0.000366211 188.132 0.000366211H209.22C210.492 0.000366211 211.447 1.16425 211.197 2.41173L186.804 124.379C186.615 125.322 185.788 126 184.827 126Z"/><path d="M375.097 0C376.369 0 377.323 1.16388 377.074 2.41136L372.84 23.5796C372.652 24.5219 371.824 25.2002 370.863 25.2002H318.729C317.768 25.2002 316.941 25.8785 316.752 26.8208L297.24 124.379C297.052 125.322 296.225 126 295.264 126H274.175C272.903 126 271.949 124.836 272.198 123.589L291.394 27.6116C291.644 26.3641 290.689 25.2002 289.417 25.2002H243.936C242.664 25.2002 241.71 24.0363 241.959 22.7888L246.193 1.62062C246.381 0.678299 247.209 0 248.17 0H375.097Z"/><path d="M23.5472 126H2.45912C1.18693 126 0.232776 124.836 0.482272 123.589L20.338 24.3097C23.165 10.1749 35.5759 0.000366211 49.9907 0.000366211H138.66C139.933 0.000366211 140.887 1.16425 140.637 2.41173L136.404 23.5797C136.215 24.522 135.388 25.2003 134.427 25.2003H53.8989C48.9714 25.2003 44.7661 28.7627 43.956 33.6231L40.7111 53.0928C40.5063 54.3216 41.4539 55.4402 42.6997 55.4402H98.2176C99.5292 55.4402 100.492 56.6727 100.173 57.9451L96.1414 74.0731C95.9171 74.9705 95.1107 75.6001 94.1856 75.6001H36.9326C35.9716 75.6001 35.1442 76.2784 34.9558 77.2207L25.524 124.379C25.3356 125.322 24.5082 126 23.5472 126Z"/></svg></a>
+    <a class="logo" href="/" aria-label="Budi"><svg viewBox="0 0 380 185" aria-hidden="true"><mask id="logo-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="185"><rect width="380" height="185" fill="#fff"/><rect x="2" y="95.76" width="50.68" height="20.08"/></mask><g mask="url(#logo-cut)"><path d="M72.8737 52.6137C82.5154 52.6137 89.7467 55.4397 94.5675 61.0917C99.5546 66.5775 102.048 74.5569 102.048 85.0297C102.048 89.1856 101.882 92.3441 101.549 94.5052L95.5649 142.88C93.9025 156.012 89.7467 166.319 83.0972 173.8C76.614 181.114 67.8035 184.771 56.6657 184.771C47.5227 184.771 40.707 181.613 36.2187 175.296C35.8862 174.963 35.5537 174.88 35.2212 175.047C34.8888 175.047 34.7225 175.296 34.7225 175.795L34.2238 179.784C34.0576 180.615 33.642 181.363 32.9771 182.028C32.4784 182.527 31.8134 182.777 30.9822 182.777H2.55587C1.72469 182.777 1.05976 182.527 0.561055 182.028C0.062347 181.363 -0.103899 180.615 0.0623369 179.784L20.7587 11.2209C20.925 10.3898 21.2574 9.72481 21.7561 9.22609C22.4211 8.56115 23.1691 8.22868 24.0003 8.22868H52.4267C53.2579 8.22868 53.9228 8.56115 54.4215 9.22609C54.9202 9.72481 55.0865 10.3898 54.9202 11.2209L48.6864 61.8398V62.0891C48.6864 62.0891 48.6864 62.1723 48.6864 62.3385C48.8526 62.3385 48.9357 62.3385 48.9357 62.3385C49.6007 62.3385 50.3487 61.9229 51.1799 61.0917C57.1644 55.4397 64.3957 52.6137 72.8737 52.6137ZM67.1386 96.9987C67.6373 92.8428 66.9723 89.435 65.1437 86.7752C63.3151 84.1154 60.7385 82.7855 57.4138 82.7855C54.5877 82.7855 51.928 83.783 49.4344 85.7778C47.1071 87.7726 45.5279 90.4324 44.6967 93.7571L38.7122 143.628C38.7122 146.953 39.6265 149.612 41.4551 151.607C43.2837 153.602 45.6941 154.6 48.6864 154.6C52.0111 154.6 54.8371 153.27 57.1644 150.61C59.6579 147.95 61.1541 144.542 61.6528 140.386L67.1386 96.9987Z M178.261 57.6008C178.427 56.7696 178.76 56.1046 179.258 55.6059C179.923 54.941 180.671 54.6085 181.502 54.6085H209.929C210.76 54.6085 211.425 54.941 211.924 55.6059C212.422 56.1046 212.589 56.7696 212.422 57.6008L197.461 179.784C197.295 180.615 196.879 181.363 196.214 182.028C195.716 182.527 195.051 182.777 194.219 182.777H165.793C164.962 182.777 164.297 182.527 163.798 182.028C163.3 181.363 163.133 180.615 163.3 179.784L163.798 175.545C163.965 175.047 163.881 174.714 163.549 174.548C163.216 174.382 162.884 174.548 162.552 175.047C157.232 181.363 149.585 184.522 139.611 184.522C130.967 184.522 123.902 182.112 118.416 177.291C112.93 172.304 110.187 164.74 110.187 154.6C110.187 153.103 110.353 150.693 110.686 147.368L121.657 57.6008C121.824 56.7696 122.156 56.1046 122.655 55.6059C123.32 54.941 124.068 54.6085 124.899 54.6085H153.325C154.157 54.6085 154.822 54.941 155.32 55.6059C155.819 56.1046 155.985 56.7696 155.819 57.6008L145.845 139.638C145.679 140.469 145.595 141.716 145.595 143.379C145.595 147.036 146.344 149.862 147.84 151.857C149.502 153.685 151.829 154.6 154.822 154.6C158.479 154.6 161.471 153.186 163.798 150.36C166.126 147.534 167.622 143.711 168.287 138.89L178.261 57.6008Z M291.372 11.2209C291.538 10.3898 291.871 9.72481 292.37 9.22609C293.034 8.56115 293.783 8.22868 294.614 8.22868H323.04C323.871 8.22868 324.536 8.56115 325.035 9.22609C325.534 9.72481 325.7 10.3898 325.534 11.2209L304.837 179.784C304.671 180.615 304.255 181.363 303.59 182.028C303.092 182.527 302.427 182.777 301.596 182.777H273.169C272.338 182.777 271.673 182.527 271.174 182.028C270.676 181.363 270.51 180.615 270.676 179.784L271.174 175.795C271.341 175.296 271.258 175.047 270.925 175.047C270.593 174.88 270.177 174.963 269.678 175.296C263.528 181.613 255.964 184.771 246.987 184.771C237.179 184.771 229.865 181.945 225.044 176.293C220.223 170.475 217.813 162.413 217.813 152.106C217.813 148.116 217.979 145.041 218.311 142.88L224.296 94.5052C225.958 81.0401 230.114 70.7334 236.764 63.5853C243.413 56.2709 252.224 52.6137 263.195 52.6137C266.852 52.6137 270.509 53.3618 274.167 54.8579C277.824 56.1878 280.982 58.6813 283.642 62.3385C283.975 62.671 284.307 62.8372 284.64 62.8372C284.972 62.671 285.138 62.3385 285.138 61.8398L291.372 11.2209ZM262.447 154.6C265.273 154.6 267.85 153.602 270.177 151.607C272.671 149.612 274.333 146.953 275.164 143.628L281.149 93.7571C281.149 90.4324 280.234 87.7726 278.406 85.7778C276.577 83.783 274.167 82.7855 271.174 82.7855C267.85 82.7855 264.941 84.1154 262.447 86.7752C260.12 89.435 258.707 92.8428 258.208 96.9987L252.722 140.386C252.224 144.542 252.888 147.95 254.717 150.61C256.546 153.27 259.122 154.6 262.447 154.6Z"/><path class="i" d="M358.109 39.3979C353.122 39.3979 349.049 37.8187 345.891 34.6602C342.733 31.5017 341.153 27.5121 341.153 22.6912C341.153 16.0418 343.231 10.6391 347.387 6.4832C351.543 2.16107 356.696 0 362.847 0C368 0 372.073 1.49612 375.065 4.48837C378.058 7.48062 379.554 11.4703 379.554 16.4574C379.554 22.7743 377.393 28.177 373.071 32.6654C368.915 37.1537 363.928 39.3979 358.109 39.3979ZM333.434 182.777C332.602 182.777 331.937 182.527 331.439 182.028C330.94 181.363 330.774 180.615 330.94 179.784L339.158 56.8527C339.325 56.0215 339.657 55.3566 340.156 54.8579C340.821 54.1929 341.569 53.8605 342.4 53.8605H370.826C371.658 53.8605 372.323 54.1929 372.821 54.8579C373.32 55.3566 373.486 56.0215 373.32 56.8527L350.629 179.784C350.463 180.615 350.047 181.363 349.382 182.028C348.883 182.527 348.218 182.777 347.387 182.777H333.434Z"/></g></svg></a>
     <div class="tools">
     <div class="lang" id="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es" lang="es">ES</button><button type="button" data-l="en" lang="en">EN</button></div>
-    <button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Forma Fit Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
+    <button class="switch" id="mode" type="button" role="switch" aria-checked="false" aria-label="Budi Pro"><span class="s-free" data-t="swFree">GRATIS</span><span class="s-pro">PRO</span></button>
   </div>
   </div>
 
@@ -344,7 +343,7 @@ footer a { color: var(--muted); }
       <h1 class="disp" data-m="pro" data-t="pH1">Tú programas,<br><em>ellos entrenan</em></h1>
       <p class="claim" data-m="free" data-t="fClaim">Gratis. Sin anuncios ni tonterías.</p>
       <p class="claim" data-m="pro" data-t="pClaim">Para entrenadores/as.</p>
-      <p class="lead" data-m="free" data-t="fLead">Forma Fit es una app pensada para la <strong class="hl">gente que entrena</strong>. Crea o elige un programa, registra tus entrenos y mide tu progreso.</p>
+      <p class="lead" data-m="free" data-t="fLead">Budi es una app pensada para la <strong class="hl">gente que entrena</strong>. Crea o elige un programa, registra tus entrenos y mide tu progreso.</p>
       <p class="lead" data-m="pro" data-t="pLead">Pensada para que entrenes a tus clientes de la misma forma que entrenas tú, sin salir de la app.</p>
       <div class="badges desk-only">
         <a class="badge" data-store="play" href="#"><svg aria-hidden="true"><use href="#gp"/></svg><span data-t="bPlay">Disponible en<b>Google Play</b></span></a>
@@ -357,7 +356,7 @@ footer a { color: var(--muted); }
       </div>
       <div class="dl-mob">
         <div class="icon"><img src="/img/ff.png" alt=""></div>
-        <div><b>Forma Fit</b><small data-t="free">Gratis · sin anuncios</small></div>
+        <div><b>Budi</b><small data-t="free">Gratis · sin anuncios</small></div>
         <a class="go" href="#"><svg aria-hidden="true"><use href="#gp"/></svg><span data-t="go">Descargar gratis</span></a>
         <p class="other"></p>
         <div class="both">
@@ -399,7 +398,7 @@ footer a { color: var(--muted); }
     <h2 class="disp" data-t="moreH">Y además</h2>
     <div class="feats">
       <article class="feat-row"><div class="ftxt"><h3 data-t="f1t">Programa por etapas</h3><p data-t="f1d">Divide tu programa en etapas: acumulación, intensificación, descarga…</p></div><div class="fvis"><div class="phone"><div class="scr"><img src="/img/programa.jpg" alt="Programa dividido en etapas" style="--y:-30%"></div></div></div></article>
-      <article class="feat-row"><div class="ftxt"><h3 data-t="f2t">Tu carga, semana a semana</h3><p data-t="f2d">Forma Fit mide tu entrenamiento, para que puedas tomar mejores decisiones.</p></div><div class="fvis"><div class="phone"><div class="scr"><img src="/img/carga.jpg" alt="Carga de entrenamiento" style="--y:0%"></div></div></div></article>
+      <article class="feat-row"><div class="ftxt"><h3 data-t="f2t">Tu carga, semana a semana</h3><p data-t="f2d">Budi mide tu entrenamiento, para que puedas tomar mejores decisiones.</p></div><div class="fvis"><div class="phone"><div class="scr"><img src="/img/carga.jpg" alt="Carga de entrenamiento" style="--y:0%"></div></div></div></article>
       <article class="feat-row"><div class="ftxt"><h3 data-t="f3t">Si no encuentras tu ejercicio, créalo</h3><p data-t="f3d">Puedes crear y añadir tus propios ejercicios, como si fuesen de la app.</p></div><div class="fvis"><div class="phone"><div class="scr"><div class="mock" data-t="newexM"><h4>Nuevo<br>ejercicio</h4><div class="newex"><small>Nombre</small><div class="field">Remo en polea baja, agarre neutro</div><small>Grupo y material</small><div class="chips"><span>Espalda</span><span>Polea</span></div><small>Qué apuntas</small><div class="chips"><span>kg · reps</span></div><div class="okpill">+ Añadir a mis ejercicios</div></div></div></div></div></div></article>
       <article class="feat-row"><div class="ftxt"><h3 data-t="f4t">Crea sesiones libres</h3><p data-t="f4d">Para entrenamientos improvisados o fuera del programa, siempre a mano.</p></div><div class="fvis"><div class="phone"><div class="scr"><img src="/img/entreno.jpg" alt="Sesiones libres en la pantalla Entreno" style="--y:-30%"></div></div></div></article>
       <article class="feat-row"><div class="ftxt"><h3 data-t="f5t">Plantillas</h3><p data-t="f5d">Crea un programa o una sesión una vez y asígnalo a quien quieras en dos toques.</p></div><div class="fvis"><div class="phone"><div class="scr"><div class="mock" data-t="tplM"><h4>Plantillas</h4><small>Tus programas y sesiones</small><div class="row"><p>Fuerza 3 días<small>Programa · 4 etapas</small></p><span>ASIGNAR</span></div><div class="row"><p>Hipertrofia PPL<small>Programa · 3 etapas</small></p><span>ASIGNAR</span></div><div class="row"><p>Core 20 min<small>Sesión</small></p><span>ASIGNAR</span></div></div></div></div></div></article>
@@ -413,7 +412,7 @@ footer a { color: var(--muted); }
     <div class="letter">
       <p class="caps" data-t="noteK">Una nota antes de que la descargues</p>
       <h2 class="disp" data-t="hello">Hola, <em>soy Lucas</em></h2>
-      <p data-t="l1">Forma Fit empezó porque yo mismo necesitaba una app para registrar mi entrenamiento y centrarme en eso: entrenar. Me molestaban las apps que pedían a cambio mi atención, mis datos o tener un anuncio acechando en algún lugar. Tampoco quería medallas ni trofeos por completar o no la sesión. Solo entrenar y llevar un registro de lo que había hecho.</p>
+      <p data-t="l1">Budi empezó porque yo mismo necesitaba una app para registrar mi entrenamiento y centrarme en eso: entrenar. Me molestaban las apps que pedían a cambio mi atención, mis datos o tener un anuncio acechando en algún lugar. Tampoco quería medallas ni trofeos por completar o no la sesión. Solo entrenar y llevar un registro de lo que había hecho.</p>
       <p data-t="l2">Todavía tengo la primera versión instalada en el móvil, por nostalgia. Pero después de muchas (muuuchas) versiones, cambios e iteraciones, puedo decir que por fin cumple con lo que me propuse: una app fácil y cómoda de usar, pensada únicamente para las personas que entrenamos.</p>
       <p data-t="l3">Estoy trabajando en nuevas ideas y mejoras (una vez que empiezas, nunca es suficiente), pero, ahora que ya no es solo mía, sino de todos, me gustaría saber qué piensas de la app, cómo puede mejorar para hacer tu entreno más cómodo y qué te gustaría ver en el futuro.</p>
       <p data-t="l4">He invertido en ella tiempo y le he puesto todo el cuidado que he sabido. Si algo falla, recuerda que detrás hay una persona que solo quería entrenar y registrar sus marcas. Espero tu feedback constructivo para poder mejorarla.</p>
@@ -447,10 +446,10 @@ footer a { color: var(--muted); }
   <div class="wrap">
     <a href="/privacidad/" data-t="priv">Privacidad</a>
     <a href="/soporte/" data-t="sup">Soporte</a>
-    <span>© 2026 Forma Fit</span>
+    <span>© 2026 Budi</span>
   </div>
 </footer>
-<div class="sticky" id="sticky"><div class="icon"><img src="/img/ff.png" alt=""></div><b>Forma Fit<span data-t="free">Gratis · sin anuncios</span></b><a class="cta" id="stickyGo" href="#final" data-t="dlBtn">Descargar</a></div>
+<div class="sticky" id="sticky"><div class="icon"><img src="/img/ff.png" alt=""></div><b>Budi<span data-t="free">Gratis · sin anuncios</span></b><a class="cta" id="stickyGo" href="#final" data-t="dlBtn">Descargar</a></div>
 
 <script>
 // ── Idioma: el elegido en el selector (se recuerda); si no, español salvo
@@ -472,7 +471,7 @@ const EN = {
   pH1: 'You program,<br><em>they train</em>',
   fClaim: 'Free. No ads, no nonsense.',
   pClaim: 'For coaches.',
-  fLead: 'Forma Fit is an app built for <strong class="hl">people who train</strong>. Build or pick a program, log your workouts and measure your progress.',
+  fLead: 'Budi is an app built for <strong class="hl">people who train</strong>. Build or pick a program, log your workouts and measure your progress.',
   pLead: 'Built so you train your clients the same way you train yourself, without leaving the app.',
   bPlay: 'Get it on<b>Google Play</b>',
   bIos: 'Download on the<b>App Store</b>',
@@ -493,7 +492,7 @@ const EN = {
   f1t: 'Program in stages',
   f1d: 'Split your program into stages: accumulation, intensification, deload…',
   f2t: 'Your load, week by week',
-  f2d: 'Forma Fit measures your training so you can make better decisions.',
+  f2d: 'Budi measures your training so you can make better decisions.',
   f3t: 'Can’t find your exercise? Create it',
   f3d: 'Create and add your own exercises, just like the app’s own.',
   f4t: 'Create free sessions',
@@ -507,7 +506,7 @@ const EN = {
   bigS: 'ads · now and forever',
   noteK: 'A note before you download it',
   hello: 'Hi, <em>I’m Lucas</em>',
-  l1: 'Forma Fit started because I needed an app to log my training and focus on just that: training. I was annoyed by apps that asked for my attention or my data in return, or had an ad lurking somewhere. I didn’t want medals or trophies for finishing a session or not, either. Just train and keep a record of what I’d done.',
+  l1: 'Budi started because I needed an app to log my training and focus on just that: training. I was annoyed by apps that asked for my attention or my data in return, or had an ad lurking somewhere. I didn’t want medals or trophies for finishing a session or not, either. Just train and keep a record of what I’d done.',
   l2: 'I still have the first version installed on my phone, out of nostalgia. But after many (maaany) versions, changes and iterations, I can say it finally does what I set out to do: an easy, comfortable app, made only for those of us who train.',
   l3: 'I’m working on new ideas and improvements (once you start, it’s never enough), but now that it’s not just mine anymore but everyone’s, I’d love to know what you think of the app, how it could make your training more comfortable and what you’d like to see in the future.',
   l4: 'I’ve put time into it and all the care I know how to give. If something breaks, remember there’s a person behind it who just wanted to train and keep track of their lifts. I look forward to your constructive feedback so I can improve it.',
@@ -532,7 +531,7 @@ function tr(root) {
 }
 if (en) {
   document.documentElement.lang = 'en';
-  document.title = 'Forma Fit · Train, log, progress';
+  document.title = 'Budi · Train, log, progress';
   tr(document);
   document.querySelector('[data-t="priv"]').href = '/privacy/';
   document.querySelector('[data-t="sup"]').href = '/support/';
@@ -601,7 +600,7 @@ const PATHS = en ? {
   client: {
     steps: [
       { k: 'Connect', who: 'me', t: 'Connect with your coach', p: 'If you have a coach, connect and get their program in your app.',
-        li: ['They give you a code and you’re connected', 'Coach not on Forma Fit? Invite them'], vis: MOCK.code },
+        li: ['They give you a code and you’re connected', 'Coach not on Budi? Invite them'], vis: MOCK.code },
       { k: 'Program', who: 'coach2me', t: 'Get their program', p: 'Your coach builds your program and it shows up in the app, ready to train.',
         li: ['Program and history always in sync'], vis: img('programa.jpg', 'Program from the coach') },
       { k: 'Workout', who: 'me', t: 'Open the app and train', p: 'No guessing what to do. Today’s session, ready to start.',
@@ -622,7 +621,7 @@ const PATHS = en ? {
       { k: 'Clients', who: 'me', t: 'All your clients', p: 'See who’s training and who hasn’t shown up in days at a glance, plus their progress, in one place.',
         li: ['Each client has a profile with their program, history and progress'], vis: img('clientes.jpg', 'Client list') },
     ],
-    end: { k: 'Try it!', t: 'Start now!', p: 'Download Forma Fit and try it free with up to 3 clients.' },
+    end: { k: 'Try it!', t: 'Start now!', p: 'Download Budi and try it free with up to 3 clients.' },
   },
 } : {
   solo: {
@@ -641,7 +640,7 @@ const PATHS = en ? {
   client: {
     steps: [
       { k: 'Conectar', who: 'me', t: 'Conecta con tu entrenador/a', p: 'Si tienes un entrenador/a, conecta y recibe su programa en tu app.',
-        li: ['Te pasa un código y quedáis conectados', '¿No tiene Forma Fit? Invítale'], vis: MOCK.code },
+        li: ['Te pasa un código y quedáis conectados', '¿No tiene Budi? Invítale'], vis: MOCK.code },
       { k: 'Programa', who: 'coach2me', t: 'Recibe su programa', p: 'Tu entrenador/a crea tu programa y te aparece en la app, listo para entrenar.',
         li: ['Programa e historial siempre sincronizados'], vis: img('programa.jpg', 'Programa del entrenador') },
       { k: 'Entreno', who: 'me', t: 'Abre la app y entrena', p: 'Sin adivinar lo que tienes que hacer. La sesión de hoy, lista para empezar.',
@@ -662,7 +661,7 @@ const PATHS = en ? {
       { k: 'Clientes', who: 'me', t: 'Todos tus clientes', p: 'Revisa quién entrena y quién lleva días sin aparecer de un vistazo, así como su progreso, en un solo sitio.',
         li: ['Cada cliente tiene su ficha, donde verás su programa, su historial y su progreso'], vis: img('clientes.jpg', 'Lista de clientes') },
     ],
-    end: { k: '¡Pruébalo!', t: '¡Empieza ahora!', p: 'Descarga Forma Fit y pruébalo gratis con hasta 3 clientes.' },
+    end: { k: '¡Pruébalo!', t: '¡Empieza ahora!', p: 'Descarga Budi y pruébalo gratis con hasta 3 clientes.' },
   },
 };
 const LABEL = en ? { solo: 'On my own', client: 'With a coach', coach: 'I’m a coach' }
@@ -795,7 +794,7 @@ stores(document);
 addEventListener('DOMContentLoaded', () => {
   if (!window.QRCode) return;
   const qr = $('qr');
-  new QRCode(qr, { text: 'https://formafit-pro.github.io/', width: 392, height: 392, colorDark: '#000', colorLight: '#aae216', correctLevel: QRCode.CorrectLevel.H });
+  new QRCode(qr, { text: 'https://budiapp.app/', width: 392, height: 392, colorDark: '#000', colorLight: '#aae216', correctLevel: QRCode.CorrectLevel.H });
   qr.insertAdjacentHTML('beforeend', '<span class="center"><img src="/img/ff.png" alt=""></span>');
 });
 

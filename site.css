@@ -1,9 +1,9 @@
-/* Forma Fit — web. Colores del tema formaFit de la app (mobile/src/themes.js).
+/* Budi — web. Colores del tema formaFit de la app (mobile/src/themes.js).
    Estructura del paywall «D»: corte de arriba inclinado y zona de abajo con
    tinte, con las inclinaciones paralelas (M02 §1). */
 :root {
-  --bg: #171717;          /* zona de abajo: tinte neutro en Forma Fit */
-  --cut: #000;            /* corte de arriba: negro en Forma Fit */
+  --bg: #171717;          /* zona de abajo: tinte neutro en Budi */
+  --cut: #000;            /* corte de arriba: negro en Budi */
   --on-cut: #e6e6e6;
   --surface: #1f1f1f;
   --surface2: #272727;
@@ -57,9 +57,9 @@ a { color: var(--accent); }
   color: inherit;
   text-decoration: none;
 }
-.logo b { font: italic 900 1em/1 Inter, sans-serif; letter-spacing: -.06em; }
-.logo svg { height: .727em; width: calc(.727em * 3); fill: var(--accent); }
-.accent .logo svg { fill: var(--on-accent); }
+.logo svg { height: 1em; width: calc(1em * 380 / 185); fill: currentColor; }
+.logo .i { fill: var(--accent); }
+.accent .logo svg, .accent .logo .i { fill: var(--on-accent); }
 .pro {
   font: 800 11px/1 Inter, sans-serif;
   letter-spacing: .08em;
